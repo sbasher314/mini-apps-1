@@ -56,3 +56,19 @@
 .cell.correct {
   background: #68ff00;
 }
+
+ul {
+  font-family: 'Courier New';
+  list-style: none;
+  margin: 0;
+  padding-left: 2em;
+}
+
+ul li:first-child {
+  font-weight: bold;
+  padding: 0;
+}
+
+ul li {
+  pading-left: 2em;
+}

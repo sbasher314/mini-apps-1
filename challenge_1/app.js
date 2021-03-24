@@ -2,12 +2,19 @@ window.addEventListener('load', event => {
   let gameBoard = [[,,,],[,,,],[,,,]];
   let turn = 0;
   let solution = [,,,];
-  let players = {
-    0: 'Player 1',
-    1: 'Player 2',
-    tie: 'Tie'
+  let wins = {
+    0: 0,
+    1: 0
   }
+  let players = {
+    0: prompt('Player 1 Name', 'Player 1') || 'Player 1',
+    1: prompt('Player 1 Name', 'Player 2') || 'Player 2',
+  }
+  let lastwinner = 0;
 
+  document.querySelector('.player1').innerHTML = players[0];
+  document.querySelector('.player2').innerHTML = players[1];
+  document.querySelector('.status').innerHTML = players[0] + "'s turn";
   let reset = () => {
     gameBoard = [[,,,],[,,,],[,,,]];
     turn = 0;
@@ -16,7 +23,7 @@ window.addEventListener('load', event => {
       el.classList.remove('set', 'correct');
       el.innerHTML = "";
     });
-    document.querySelector('.status').innerHTML = "Player 1's turn";
+    document.querySelector('.status').innerHTML = players[lastwinner] + "'s turn";
   }
 
   let checkHorizontals = (board) => {
@@ -86,7 +93,7 @@ window.addEventListener('load', event => {
         winner = 'tie'
       }
     }
-    return players[winner];
+    return winner;
   }
 
   let highlightSolution = () => {
@@ -111,10 +118,14 @@ window.addEventListener('load', event => {
       event.target.innerHTML = (player === 0) ? 'X' : 'O';
       let winner = checkSolution(gameBoard);
       let status = '';
-      if (winner === 'Tie') {
+      if (winner === 'tie') {
         status = 'No winner - Tie';
       } else if (winner !== undefined) {
-        status = winner + " wins!";
+        status = players[winner] + " wins!";
+        lastwinner = winner;
+        wins[winner]++;
+        document.querySelector('.p1wins').innerHTML = wins[0];
+        document.querySelector('.p2wins').innerHTML = wins[1];
         highlightSolution();
         let elements = [...document.getElementsByClassName('cell')];
         elements.forEach(el => el.classList.add('set'));
