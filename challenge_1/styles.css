@@ -33,6 +33,7 @@
   border-right: 1px solid black;
   border-bottom: 1px solid black;
   transition: all 0.05s;
+  box-sizing: border-box;
 }
 
 .cell:hover {
@@ -50,4 +51,8 @@
 .cell:not(.set):hover {
   box-shadow: #3399ff 0px 0px 16px inset;
   background: #3399ff66;
+}
+
+.cell.correct {
+  background: #68ff00;
 }
