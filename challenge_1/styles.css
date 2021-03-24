@@ -1,0 +1,53 @@
+.container {
+  user-select: none;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  font-family: sans-serif;
+}
+
+.board {
+  align-self: center;
+  display:flex;
+  flex-direction: column;
+  border-top: 1px solid black;
+  text-align: center;
+  line-height: 100px;
+  font-size: 96px;
+}
+
+.row {
+  justify-content: center;
+  align-content: center;
+  display: flex;
+  flex-direction: row;
+  height: 100px;
+  width: 300px;
+  box-sizing: border-box;
+  border-left: 1px solid black;
+}
+
+.cell {
+  height: 100px;
+  width: 100px;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  transition: all 0.05s;
+}
+
+.cell:hover {
+  box-shadow: #3399ff 0px 0px 8px inset;
+}
+
+.cell:not(.set) {
+  cursor: pointer;
+}
+
+.cell.set {
+  cursor:not-allowed;
+}
+
+.cell:not(.set):hover {
+  box-shadow: #3399ff 0px 0px 16px inset;
+  background: #3399ff66;
+}
