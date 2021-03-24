@@ -23,6 +23,7 @@ window.addEventListener('load', event => {
       el.classList.remove('set', 'correct');
       el.innerHTML = "";
     });
+    document.querySelector('.board').classList.remove('tie');
     document.querySelector('.status').innerHTML = players[lastwinner] + "'s turn";
   }
 
@@ -120,6 +121,7 @@ window.addEventListener('load', event => {
       let status = '';
       if (winner === 'tie') {
         status = 'No winner - Tie';
+        document.querySelector('.board').classList.add('tie');
       } else if (winner !== undefined) {
         status = players[winner] + " wins!";
         lastwinner = winner;
