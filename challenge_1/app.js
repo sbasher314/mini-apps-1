@@ -84,4 +84,30 @@ window.addEventListener('load', event => {
     reset();
   });
 
+  document.querySelector('.board').addEventListener('click', event => {
+    console.log(gameBoard);
+    let row = event.target.getAttribute('row');
+    let col = event.target.getAttribute('col');
+    if (event.target.classList.contains('set') === false && gameBoard[row][col] === undefined) {
+      let player = turn++ % 2
+      gameBoard[row][col] = player;
+      event.target.classList.add('set');
+      let winner = checkSolution(gameBoard);
+      console.log(winner);
+      let status = '';
+      if (winner === 'tie') {
+        status = 'No winner - Tie';
+      } else if (winner !== undefined) {
+        status = winner + " wins!";
+        let elements = [...document.getElementsByClassName('cell')];
+        elements.forEach(el => el.classList.add('set'));
+      } else {
+        status = players[player] + "'s turn";
+      }
+      document.querySelector('.status').innerHTML = status;
+    } else {
+      console.log('that space is already taken');
+    }
+
+  });
 });
