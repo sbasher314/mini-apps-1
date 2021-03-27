@@ -1,11 +1,16 @@
 const express = require('express')
 const bodyParser = require('body-parser');
+const upload = require('multer')({ dest: 'uploads/' });
+const cors = require('cors');
 const router = express.Router();
 const app = express()
+const fs = require('fs');
 
+app.use(cors());
 app.use(express.static('client'));
 app.use(bodyParser.json());
-app.use(express.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: true}))
+//app.use(express.urlencoded({extended: true}));
 
 
 let convertJSON = json => {
@@ -32,26 +37,41 @@ let convertJSON = json => {
     }
   }
 
-  try {
+  return new Promise((resolve, reject) => {
     json = JSON.parse(json);
     iterate(json);
     CSV = properties.toString() + '\n';
     for (let i = 0; i < values.length; i++) {
       CSV += values[i].toString() + '\n';
     }
-    return encodeURI(CSV);
-  } catch {
-    return "Invalid input"
-  }
+    resolve(encodeURI(CSV));
+  }).catch(err => "Invalid input");
 
 }
 
 app.get('/convert', (req, res) => res.redirect("/"));
 
-app.post('/convert', function (req, res) {
-
-  res.cookie("CSV", convertJSON(req.body.JSON), {expires: new Date(Date.now() + 2000)});
-  res.sendFile(__dirname + '/client/index.html');
+app.post('/convert', upload.single('fileUpload'), function (req, res) {
+  let setCookie = (value) => {
+    convertJSON(value)
+    .then(data => {
+      res.cookie("CSV", data, {expires: new Date(Date.now() + 2000)})
+    })
+    .catch(console.err)
+    .finally(() => res.sendFile(__dirname + '/client/index.html'));
+  }
+  if (req.file !== undefined) {
+    let stream = fs.createReadStream(req.file.path);
+    let json = '';
+    stream.on('data', (data) => json += data);
+    stream.on('end', (data) => {
+      setCookie(json);
+    })
+  } else if (req.body !== undefined) {
+    setCookie(req.body.JSON);
+  } else {
+    setCookie();
+  }
 })
 
 app.use(router);

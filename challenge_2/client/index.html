@@ -4,15 +4,21 @@
   <title>CSV Report Generator</title>
 </head>
 <body>
-  <form method="POST" action="/convert">
+  <form method="POST" action="/convert" enctype="multipart/form-data">
     <fieldset>
       <legend>CSV Report Generator</legend>
       <p>
-        <h3><label for="JSON-textarea" width="100%">JSON input: <abbr title="required" aria-label="required">*</abbr></label></h3>
-        <textarea id="JSON-textarea" name="JSON" rows="10" cols="100" required autofocus placeholder="Input JSON data here"></textarea>
+        <h3><label for="JSON-textarea" width="100%">JSON input:</label></h3>
+        <textarea id="JSON-textarea" name="JSON" rows="10" cols="100" autofocus placeholder="Input JSON data here"></textarea>
       </p>
       <p>
-        <input type="submit" value="Convert to CSV" />
+        <h3><label for="JSON-upload">File Upload: </label></h3>
+
+        <input id="JSON-upload" type="file" value="Upload JSON" name="fileUpload"/>
+        <button id="remove-file" style="display: none">Remove File</button>
+      </p>
+      <p>
+        <input id='submit' type="submit" value="Convert to CSV" disabled />
       </p>
     </fieldset>
   </form>
