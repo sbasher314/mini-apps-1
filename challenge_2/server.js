@@ -10,26 +10,44 @@ app.use(express.urlencoded({extended: false}));
 
 let convertJSON = json => {
   let properties = [];
+  let values = [];
   let CSV = "";
-  try {
-    json = JSON.parse(json);
-    for (const property in json) {
-      console.log(property+": "+json[property]);
+
+  function iterate(node, row = 0,) {
+    while(values[row] !== undefined) {
+      row++;
+    }
+    values[row] = [];
+    for (const property in node) {
       if (property !== 'children') {
         if (properties.indexOf(property) < 0) {
           properties.push(property);
-          CSV += property+",";
         }
+        values[row][properties.indexOf(property)] = node[property];
+      } else {
+          for (let i = 0; i < node['children'].length; i++) {
+            iterate(node['children'][i], row + 1);
+          }
       }
     }
-    CSV = CSV.slice(0, -1) + '\n';
-    CSV += CSV;
+  }
+
+  try {
+    json = JSON.parse(json);
+    iterate(json);
+    CSV = properties.toString() + '\n';
+    for (let i = 0; i < values.length; i++) {
+      CSV += values[i].toString() + '\n';
+    }
     return encodeURI(CSV);
   } catch {
     return "Invalid input"
   }
 
 }
+
+app.get('/convert', (req, res) => res.redirect("/"));
+
 app.post('/convert', function (req, res) {
 
   res.cookie("CSV", convertJSON(req.body.JSON), {expires: new Date(Date.now() + 2000)});
