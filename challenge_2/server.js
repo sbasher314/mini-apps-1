@@ -55,11 +55,12 @@ app.post('/convert', upload.single('fileUpload'), function (req, res) {
   let setCookie = (value) => {
     convertJSON(value)
     .then(data => {
-      res.cookie("CSV", data, {expires: new Date(Date.now() + 2000)})
+      res.json({filepath: req.file?.path, data: data})
     })
     .catch(console.err)
-    .finally(() => res.sendFile(__dirname + '/client/index.html'));
+    .finally(() => res.end());
   }
+
   if (req.file !== undefined) {
     let stream = fs.createReadStream(req.file.path);
     let json = '';
@@ -73,6 +74,10 @@ app.post('/convert', upload.single('fileUpload'), function (req, res) {
     setCookie();
   }
 })
+
+app.post('/download', (req, res) => {
+  res.sendFile(__dirname + '/' + req.body.filepath);
+});
 
 app.use(router);
 app.listen(3000, () => console.log('Listening on port 3000'));

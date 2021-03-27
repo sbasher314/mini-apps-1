@@ -4,7 +4,7 @@
   <title>CSV Report Generator</title>
 </head>
 <body>
-  <form method="POST" action="/convert" enctype="multipart/form-data">
+  <form>
     <fieldset>
       <legend>CSV Report Generator</legend>
       <p>
@@ -15,13 +15,18 @@
         <h3><label for="JSON-upload">File Upload: </label></h3>
 
         <input id="JSON-upload" type="file" value="Upload JSON" name="fileUpload"/>
-        <button id="remove-file" style="display: none">Remove File</button>
+        <button id="remove-file" style="display: none" >Remove File</button>
       </p>
       <p>
         <input id='submit' type="submit" value="Convert to CSV" disabled />
       </p>
     </fieldset>
   </form>
+  <div id="CSV" style="display: none">
+    <h2>CSV: </h2>
+    <div id="output"></div>
+    <button id='download' disabled>Download CSV</button>
+  </div>
 </body>
 <script src="./app.js"></script>
 </html>
