@@ -61,7 +61,20 @@ class Page extends React.Component {
   }
 
   submit() {
-    console.log(event);
+    axios.post('/checkout', this.state.formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+      .then(res => {
+        if (res.data === 'OK') {
+          this.nextStep();
+        } else {
+          alert('Something went wrong...')
+        }
+
+      })
+      .catch(console.error);
   }
 
   render() {
@@ -145,12 +158,21 @@ class Page extends React.Component {
         {Array.from(this.state.formData).map(a => <label>{a[0]}: {a[1]}</label>)}
         <input type="submit" value="Confirm" onClick={(e) => {
             e.preventDefault();
-            this.submit();
+            if (this.state.step === 4) {
+              this.submit();
+            } else {
+              console.error('attempted to send incomplete form')
+            }
           }} />
         <input type="button" value="Back" onClick={() => this.lastStep()}/>
       </fieldset>
     );
-    let states = [homepage, form1, form2, form3, confirmation]
+    let success = (
+      <fieldset style={this.visible(5)} name="success">
+        <h1>Thank you for your purchase!</h1>
+      </fieldset>
+    );
+    let states = [homepage, form1, form2, form3, confirmation, success]
     return (
       <form onChange={(e) => this.updateData(e)}>{states.map(val => val)}</form>
     )
