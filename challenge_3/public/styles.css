@@ -1,0 +1,23 @@
+form {
+  max-width: max-content;
+}
+fieldset {
+  display: flex;
+  flex-flow:column;
+}
+
+fieldset * {
+  margin: 2px;
+}
+
+fieldset {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+input:not([type=button]) {
+  display: block;
+}
+
+fieldset span {
+  align-self: flex-end;
+}
