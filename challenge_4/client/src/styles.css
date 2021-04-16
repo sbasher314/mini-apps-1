@@ -19,8 +19,20 @@
 .board .col .square {
   width: 64px;
   height: 64px;
-  box-shadow: 0 0 0 1px #009 inset;
-  background: #00f;
+  box-shadow: 0 0 0 1px #036 inset;
+  background: #09f;
+}
+
+.board .col:hover .square {
+  background: #06c;
+}
+
+.board .col .square div.piece[data-piece="0"] {
+  background: radial-gradient(circle, rgba(255,0,0,1) 0%, rgba(172,0,0,1) 100%);
+}
+
+.board .col .square div.piece[data-piece="1"] {
+  background: radial-gradient(circle, rgba(255,187,0,1) 0%, rgba(213,155,0,1) 100%);
 }
 
 .board .col .square div {
@@ -29,4 +41,9 @@
   margin: 4px;
   border-radius: 50%;
   background: white;
+  box-sizing: border-box;
+}
+
+.board .col .square div:hover {
+  border: 1px dashed black;
 }
