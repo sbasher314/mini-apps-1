@@ -1,0 +1,32 @@
+#app {
+  display: flex;
+}
+
+.board {
+  display: flex;
+  flex-direction: row;
+  flex-basis: min-content;
+  margin: auto;
+  border: 1px solid black;
+}
+
+.board .col {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+}
+
+.board .col .square {
+  width: 64px;
+  height: 64px;
+  box-shadow: 0 0 0 1px #009 inset;
+  background: #00f;
+}
+
+.board .col .square div {
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
+  margin: 4px;
+  border-radius: 50%;
+  background: white;
+}
