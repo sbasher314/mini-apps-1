@@ -18,8 +18,8 @@ class Column extends React.Component {
     if (this.props.turn === 0) {
       this.state.enabled = true;
     }
-    let column = [];
-    let col = this.props.col;
+    const column = [];
+    const col = this.props.col;
     for (let row = 0; row < this.props.rows; row++) {
       column.push(<Square key={`row-${row}-col-${col}`} x={col} y={row} piece={this.props.pieces[row]} />);
     }

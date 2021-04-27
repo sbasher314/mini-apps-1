@@ -20,7 +20,7 @@ class Board extends React.Component {
   }
 
   initBoard(cols, rows) {
-    let board = [];
+    const board = [];
     for (let col = 0; col < cols; col++) {
       board[col] = [];
       for (let row = 0; row < rows; row++) {
@@ -38,12 +38,12 @@ class Board extends React.Component {
     col = Number(col);
     row = Number(row);
 
-    let board = this.state.board;
+    const board = this.state.board;
 
-    let checkCol = () => {
+    const checkCol = () => {
+      const down = this.props.rows - row;
+      const piece = board[col][row];
       let count = 0;
-      let down = this.props.rows - row;
-      let piece = board[col][row];
       if (down >= 4) {
         for (let i = row; i < this.props.rows; i++) {
           if (board[col][i] === piece) {
@@ -56,11 +56,11 @@ class Board extends React.Component {
       return count >= 4 ? piece : false;
     }
 
-    let checkRow = () => {
+    const checkRow = () => {
       let piece = board[col][row];
       let count = 0;
       for (let i = 0; i < this.props.cols; i++) {
-        let next = i + 1;
+        const next = i + 1;
         if (board[i][row] === piece) {
           count++;
           if (count >= 4) {
@@ -77,7 +77,7 @@ class Board extends React.Component {
       return (count >= 4) ? piece : false;
     }
 
-    let checkMajorDiagonal = () => {
+    const checkMajorDiagonal = () => {
       let top = row - col;
       if (top < 0) {
         top = 0;
@@ -86,9 +86,9 @@ class Board extends React.Component {
       let count = 0;
       let piece = board[col][row];
       for (let offset = 0; (top + offset) < this.props.rows && (left + offset < this.props.cols); offset++) {
-        let c = left + offset;
-        let r = top + offset;
-        let current = board[c][r];
+        const c = left + offset;
+        const r = top + offset;
+        const current = board[c][r];
         if (current === "") {
           count = 0;
           continue;
@@ -106,22 +106,22 @@ class Board extends React.Component {
       return (count >= 4) ? piece : false;
     }
 
-    let checkMinorDiagonal = () => {
+    const checkMinorDiagonal = () => {
       if ((col + row) >= (this.props.cols - 4 + +this.props.rows) || (col + row) < 3) {
         //bottom right and top left corner don't need to be checked
         return false;
       }
-      let bottom = row + col;
-      let left = 0;
+      const bottom = row + col;
+      const left = 0;
       let count = 0;
       let piece = board[0][bottom];;
       for (let offset = 0; offset < this.props.cols; offset++) {
-        let c = left + offset;
-        let r = bottom - offset;
+        const c = left + offset;
+        const r = bottom - offset;
         if (r >= this.props.rows ) {
           continue;
         }
-        let current = board[c][r];
+        const current = board[c][r];
         if (current === "") {
           count = 0;
           continue;
@@ -151,10 +151,10 @@ class Board extends React.Component {
   }
 
   clickHandler(column) {
-    let col = column.currentTarget.dataset.col;
+    const col = column.currentTarget.dataset.col;
+    const board = this.state.board;
+    const turn = this.state.turn;
     let row = 0;
-    let board = this.state.board;
-    let turn = this.state.turn;
     if (this.state.winner === false) {
       if (board[col][0] === '') {
         //run column placement and checking logic
@@ -170,7 +170,7 @@ class Board extends React.Component {
           turn : (turn + 1),
           board
         });
-        let winner = this.checkSpaces(col, row);
+        const winner = this.checkSpaces(col, row);
         if (winner !== false) {
           this.setState({winner: board[col][row]});
         }
@@ -183,12 +183,11 @@ class Board extends React.Component {
   }
 
   render() {
-    let grid = [];
+    const grid = [];
     for (let col = 0; col < this.props.cols; col++) {
-
       grid[col] = <Column key={`column-${col}`} pieces={this.state.board[col]} col={col} rows={this.props.rows} turn={this.state.turn} clickHandler={(col) => this.clickHandler(col)}/>
     }
-    let winner = this.state.winner !== false;
+    const winner = this.state.winner !== false;
     return (
       <div className = "container">
         <h1>Connect 4</h1>
