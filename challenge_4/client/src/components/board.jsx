@@ -5,7 +5,10 @@ class Board extends React.Component {
     super(props);
 
     this.state = this.init(props);
-
+    this.state.players = [
+      prompt('Player 1s Name', 'Player 1'),
+      prompt('Player 2s Name', 'Player 2')
+    ]
   }
 
   init(props) {
@@ -192,11 +195,14 @@ class Board extends React.Component {
         <div className = "board" data-enabled={!winner}>
         {grid.map(gridItems => gridItems)}
         </div>
-        <h3>Player {this.state.turn % 2 ? 2 + ' (yellow)': 1 +  ' (red)'}'s turn</h3>
-        <input type="button" onClick={() => this.restart()} value="Restart" style={{"maxWidth": "24em"}}/>
-        {winner &&
-          <h2>Winner - Player {this.state.winner ? 2 : 1}!</h2>
+        {!winner &&
+          <h3>{this.state.turn % 2 ? this.state.players[1] + ' (yellow)': this.state.players[0] +  ' (red)'}'s turn</h3>
         }
+        {winner &&
+          <h3>Winner - {this.state.players[this.state.winner]}!</h3>
+        }
+        <input type="button" onClick={() => this.restart()} value="Restart" style={{"maxWidth": "24em"}}/>
+
       </div>
 
 
