@@ -7,20 +7,14 @@ class Square extends React.Component {
     this.state = {
       x: props.x,
       y: props.y,
-      piece: ''
+      piece: props.piece
     }
-  }
-
-  setPiece(player) {
-    this.state.setState({
-      piece: (this.state.piece === '') ? player : this.state.piece
-    })
   }
 
   render() {
     return (
       <div className="square" data-x={this.state.x} data-y={this.state.y}>
-        <div className="piece" data-piece={this.state.piece}></div>
+        <div className="piece" data-piece={this.props.piece}></div>
       </div>
     );
   }
