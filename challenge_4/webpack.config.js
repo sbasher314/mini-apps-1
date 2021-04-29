@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path');
 
 const config = {
@@ -28,7 +29,10 @@ const config = {
       '.js',
       '.jsx'
     ]
-  }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({template: './client/src/index.html'})
+  ]
 };
 
 module.exports = config;

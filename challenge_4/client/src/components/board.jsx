@@ -155,30 +155,23 @@ class Board extends React.Component {
     const board = this.state.board;
     const turn = this.state.turn;
     let row = 0;
-    if (this.state.winner === false) {
-      if (board[col][0] === '') {
-        //run column placement and checking logic
-        for (let i = this.props.cols - 1; i >= 0; i--) {
-          //if we find the first available (lowest) row...
-          if (board[col][i] === "") {
-            row = i;
-            board[col][i] = turn % 2;
-            break;
-          }
-        }
-        this.setState({
-          turn : (turn + 1),
-          board
-        });
-        const winner = this.checkSpaces(col, row);
-        if (winner !== false) {
-          this.setState({winner: board[col][row]});
-        }
-      } else {
-        console.log('That column is full!');
+    if (this.state.winner !== false || board[col][0] !== '') {
+      return;
+    }
+    for (let i = this.props.cols - 1; i >= 0; i--) {
+      if (board[col][i] === "") {
+        row = i;
+        board[col][i] = turn % 2;
+        break;
       }
-    } else {
-      console.log(`Winner ${this.state.winner} found, please restart game`);
+    }
+    this.setState({
+      turn : (turn + 1),
+      board
+    });
+    const winner = this.checkSpaces(col, row);
+    if (winner !== false) {
+      this.setState({winner: board[col][row]});
     }
   }
 
